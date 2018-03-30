@@ -1,11 +1,13 @@
  pipeline { 
   agent any
 
-    stages {
-     stage('build') {
-       steps {
-        sh 'ant -f build.xml -v'
-        }
-      }
-   }
+   node {
+  stage ('Checkout') {
+    svn 'https://svn.mycorp/trunk/'
+    stage 'Build'
+    sh 'make all'
+    stage 'Test'
+    sh 'make test'
+  }
+ }
 }
